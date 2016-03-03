@@ -3,6 +3,7 @@ package com.ozankyncu.sayac_programi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -11,16 +12,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
     Button btn;
     int count;
-    SharedPreferences preferences;
+    RelativeLayout arkaplan;
+    Boolean ses_durumu,titresim_durumu;
+    SharedPreferences preferences,ayarlar;
 
     @Override
     protected void onPause() {
         SharedPreferences.Editor editor=preferences.edit();
         editor.putInt("sayac",count);
+
         editor.commit();
         super.onPause();
 
@@ -33,9 +38,14 @@ public class MainActivity extends AppCompatActivity {
         ActionBar ab=getSupportActionBar();
         ab.setTitle("SAYAC");
         ab.setBackgroundDrawable(getResources().getDrawable(R.color.buton_rengi));
-
+        arkaplan=(RelativeLayout)findViewById(R.id.rllayout);
         btn=(Button)findViewById(R.id.button_sayac);
         preferences= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        /*ayarları yukle*/
+        ayarlar= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        ayarlariYukle();
+
         count=preferences.getInt("sayac",0);
         btn.setText(count+"");
 
@@ -48,6 +58,32 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void ayarlariYukle() {
+        String position=ayarlar.getString("arkaplan","3");//default deger
+        switch (Integer.valueOf(position))
+        {
+            case 0:
+                arkaplan.setBackgroundColor(Color.RED);
+                break;
+            case 1:
+                arkaplan.setBackgroundColor(Color.GREEN);
+                break;
+            case 2:
+                arkaplan.setBackgroundColor(Color.BLUE);
+                break;
+            case 3:
+                arkaplan.setBackgroundColor(Color.DKGRAY);
+                break;
+            case 4:
+                arkaplan.setBackgroundColor(getResources().getColor(R.color.arkaplan));
+                break;
+
+        }
+        ses_durumu=ayarlar.getBoolean("ses",false);
+        titresim_durumu=ayarlar.getBoolean("titresim",false);
+        ayarlar.registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -71,5 +107,10 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            ayarlariYukle();
     }
 }
