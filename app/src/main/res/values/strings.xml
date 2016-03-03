@@ -1,4 +1,18 @@
 <resources>
     <string name="app_name">Sayac_Programi</string>
     <string name="action_settings">Ayarlar</string>
+    <string-array name="renk_pozisyon">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+    <string-array name="renkler">
+        <item>Kırmızı</item>
+        <item>Yeşil</item>
+        <item>Mavi</item>
+        <item>Koyu Gri</item>
+        <item>Açık Gri</item>
+    </string-array>
 </resources>

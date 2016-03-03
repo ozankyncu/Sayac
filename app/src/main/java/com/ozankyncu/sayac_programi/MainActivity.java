@@ -1,6 +1,7 @@
 package com.ozankyncu.sayac_programi;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
@@ -59,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId()==R.id.action_settings)
         {
+            Intent ıntent=new Intent(getApplicationContext(),Ayarlar.class);
+            startActivity(ıntent);
             return true;
         }
         else if(item.getItemId()==R.id.sifirla)
